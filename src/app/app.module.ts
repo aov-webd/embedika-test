@@ -9,11 +9,15 @@ import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client/core';
 import { ExchangeRatesComponent } from './exchange-rates/exchange-rates.component';
+import { ListEntryComponent } from './list-entry/list-entry.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        ExchangeRatesComponent
+        ExchangeRatesComponent,
+        ListEntryComponent,
+        SidebarComponent
     ],
     imports: [
         BrowserModule,
