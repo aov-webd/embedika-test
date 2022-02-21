@@ -13,6 +13,7 @@ export type LaunchesPast = {
     loading: boolean
     entries?: LaunchesPastEntry[]
 }
+
 export type LaunchesPastEntry = {
     mission_name: string,
     launch_year: string,

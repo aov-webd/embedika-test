@@ -1,8 +1,11 @@
-<div [style.padding]="'64px 52px'">
+<div class="wrapper" [style.padding]="'64px 52px'">
     <p class="title">SpaceX Missions</p>
     <div class="container">
         <div class="item" *ngFor="let entry of launchesPast.entries">
-            <p class="missionName">{{entry.mission_name}}</p>
+            <p class="missionName">{{entry.mission_name}}
+                <img [style.marginLeft]="'19px'" [style.verticalAlign]="'text-top'"
+                    src="../assets/forward.svg" alt="">
+            </p>
             <div class="details">
                 <p class="name">Год запуска</p>
                 <p class="value">{{entry.launch_year}}</p>
