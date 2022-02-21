@@ -7,6 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 })
 export class FilterNameComponent implements OnInit {
+    @Input() placeHolder: string;
     @Input() text: string;
     @Output() textChanged = new EventEmitter<string>();
     constructor() { }

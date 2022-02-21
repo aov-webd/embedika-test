@@ -10,7 +10,7 @@ import { FilterOptions } from '../types';
 })
 export class SidebarComponent implements OnInit {
     subscription: Subscription;
-    shipName: string = ''
+    missionName: string = ''
     filterShips: FilterOptions = { title: 'Корабли' }
 
     constructor(private gqlService: GqlService) { }
@@ -29,7 +29,7 @@ export class SidebarComponent implements OnInit {
     }
 
     setMissionName(name): void {
-        this.gqlService.setShipName(name)
+        this.gqlService.setMissionName(name)
         this.gqlService.getGqlData()
     }
 

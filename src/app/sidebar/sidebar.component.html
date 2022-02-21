@@ -1,6 +1,7 @@
 <div class="wrapper">
     <p class="title">Фильтры</p>
-    <app-filter-name [text]="shipName" (textChanged)="setMissionName($event)"></app-filter-name>
-    <app-filter-checkbox></app-filter-checkbox>
-    <!-- <app-filter-radio></app-filter-radio> -->
+    <app-filter-name [placeHolder]="'Название миссии'" [text]="missionName"
+        (textChanged)="setMissionName($event)"></app-filter-name>
+    <!-- <app-filter-checkbox></app-filter-checkbox> -->
+    <app-filter-radio></app-filter-radio>
 </div>
