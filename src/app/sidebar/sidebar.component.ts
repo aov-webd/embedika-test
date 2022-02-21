@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { debounceTime, Subject, Subscription } from 'rxjs';
 import { GqlService } from '../gql.service';
 import { FilterOptions } from '../types';
 
@@ -8,6 +8,7 @@ import { FilterOptions } from '../types';
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss']
 })
+
 export class SidebarComponent implements OnInit {
     subscription: Subscription;
     missionName: string = '';
@@ -18,9 +19,15 @@ export class SidebarComponent implements OnInit {
     filterRockets: string[];
     filterRocketsValue: string = '';
 
+    searchNotifier = new Subject();
+
     constructor(private gqlService: GqlService) { }
     ngOnInit(): void {
         this.gqlService.getGqlData()
+
+        this.searchNotifier.pipe(debounceTime(500))
+            .subscribe(data => this.setMissionName(data));
+
         this.subscription = this.gqlService.filterRockets
             .subscribe(filterRockets => {
                 this.filterRockets = filterRockets
