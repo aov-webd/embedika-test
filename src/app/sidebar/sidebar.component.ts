@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { GqlService } from '../gql.service';
+import { FilterOptions } from '../types';
 
 @Component({
     selector: 'app-sidebar',
@@ -7,15 +9,32 @@ import { GqlService } from '../gql.service';
     styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
+    subscription: Subscription;
+    shipName: string = ''
+    filterShips: FilterOptions = { title: 'Корабли' }
 
     constructor(private gqlService: GqlService) { }
-    shipName: string = ''
     ngOnInit(): void {
-        this.gqlService.getFilterVariants()
+        this.gqlService.getGqlData()
+        this.subscription = this.gqlService.filterShips
+            .subscribe(filterShips => {
+                this.filterShips.entries = filterShips
+                console.log(this.filterShips)
+            })
     }
 
     setShipName(name): void {
         this.gqlService.setShipName(name)
-        this.gqlService.getFilterVariants()
+        this.gqlService.getGqlData()
     }
+
+    setMissionName(name): void {
+        this.gqlService.setShipName(name)
+        this.gqlService.getGqlData()
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+
 }

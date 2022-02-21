@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GqlService } from '../gql.service';
-import { FilterCheckboxOptions } from '../types';
+import { FilterOptions, LaunchesPast } from '../types';
 
 @Component({
     selector: 'app-page-list',
@@ -10,15 +10,15 @@ import { FilterCheckboxOptions } from '../types';
 })
 export class PageListComponent implements OnInit {
     subscription: Subscription;
-    filterVariants: FilterCheckboxOptions = {};
+    launchesPast: LaunchesPast = { loading: true };
 
     constructor(private gqlService: GqlService) { }
 
     ngOnInit(): void {
-        this.subscription = this.gqlService.filterVariants
-            .subscribe(filterVariants => {
-                this.filterVariants = filterVariants
-                console.log('PAGELIST: ' + this.filterVariants)
+        this.subscription = this.gqlService.launchesPast
+            .subscribe(launchesPast => {
+                this.launchesPast = launchesPast
+                console.log(this.launchesPast)
             })
     }
 

@@ -1,1 +1,14 @@
-<p>{{filterVariants}}</p>
+<div [style.padding]="'64px 52px'">
+    <p class="title">SpaceX Missions</p>
+    <div class="container">
+        <div class="item" *ngFor="let entry of launchesPast.entries">
+            <p class="missionName">{{entry.mission_name}}</p>
+            <div class="details">
+                <p class="name">Год запуска</p>
+                <p class="value">{{entry.launch_year}}</p>
+                <p class="name">Название ракеты</p>
+                <p class="value">{{entry.rocket.rocket_name}}</p>
+            </div>
+        </div>
+    </div>
+</div>

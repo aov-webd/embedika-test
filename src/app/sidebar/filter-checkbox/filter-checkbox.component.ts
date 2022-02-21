@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FilterCheckboxOptions, FilterCheckboxEntry } from 'src/app/types';
+import { FilterOptions, FilterEntry } from 'src/app/types';
 
 @Component({
     selector: 'app-filter-checkbox',
@@ -7,10 +7,10 @@ import { FilterCheckboxOptions, FilterCheckboxEntry } from 'src/app/types';
     styleUrls: ['./filter-checkbox.component.scss']
 })
 export class FilterCheckboxComponent implements OnInit {
-    @Input() options: FilterCheckboxOptions;
+    @Input() options: FilterOptions;
 
     numSelected: number = 0;
-    permissions: FilterCheckboxEntry[];
+    permissions: FilterEntry[];
     title: string;
 
     constructor() {

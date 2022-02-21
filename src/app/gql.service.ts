@@ -1,17 +1,21 @@
 import { Injectable } from "@angular/core";
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject } from "rxjs";
-import { FilterCheckboxOptions, FilterCheckboxEntry } from 'src/app/types';
+import { BehaviorSubject, Subscription } from "rxjs";
+import { FilterOptions, FilterEntry, LaunchesPast, LaunchesPastEntry } from 'src/app/types';
 
-const GET_POSTS_OF_AUTHOR = gql`
-  query GetSmth($shipName: String!) {
-    launchesPast(limit: 10, find: {ship: $shipName}) {
-    mission_name
-    ships {
-      name
+const GET_DATA = gql`
+    query getLaunchesPast($shipName: String, $missionName: String) {
+        launchesPast(limit: 10, find: {ship: $shipName, mission_name: $missionName}, offset: 10) {
+            mission_name
+            launch_year
+            rocket {
+                rocket_name
+            }
+        }
+        ships {
+            name
+        }
     }
-  }
-  }
 `;
 
 @Injectable({
@@ -19,30 +23,45 @@ const GET_POSTS_OF_AUTHOR = gql`
 })
 export class GqlService {
     constructor(private apollo: Apollo) { }
-    private filterVariantsSubject = new BehaviorSubject<FilterCheckboxOptions>({});
-    filterVariants = this.filterVariantsSubject.asObservable();
+
+    private filterShipsSubject = new BehaviorSubject<FilterEntry[]>([]);
+    filterShips = this.filterShipsSubject.asObservable();
+
+    private launchesPastSubject = new BehaviorSubject<LaunchesPast>({ loading: true });
+    launchesPast = this.launchesPastSubject.asObservable();
+
+    subscription: Subscription;
 
     shipName = ""
-    enSearch = false
+    missionName = ""
+
     setShipName(name: string) {
         this.shipName = name
         console.log(this.shipName)
     }
 
-    getFilterVariants() {
-        this.apollo
+    setMissionName(name: string) {
+        this.missionName = name
+        console.log(this.missionName)
+    }
+
+    getGqlData() {
+        this.subscription = this.apollo
             .watchQuery({
-                query: GET_POSTS_OF_AUTHOR,
+                query: GET_DATA,
                 variables: {
                     shipName: this.shipName,
-                    enSearch: this.enSearch
+                    missionName: this.missionName
                 },
             })
             .valueChanges.subscribe((result: any) => {
-                this.filterVariantsSubject.next(result?.data?.launchesPast?.map(entry => entry.mission_name));
-                // this.loading = result.loading;
+                this.launchesPastSubject.next({
+                    loading: result.loading,
+                    entries: result?.data?.launchesPast?.map((entry: LaunchesPastEntry) => entry)
+                })
+                this.filterShipsSubject.next(result?.data?.ships?.map((entry: FilterEntry) => entry.name));
                 // this.error = result.error;
-                // console.log(result?.data?.launchesPast)
+                this.subscription.unsubscribe();
             });
     }
 }
