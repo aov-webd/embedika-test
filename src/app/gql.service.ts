@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Apollo, gql } from 'apollo-angular';
+import { BehaviorSubject } from "rxjs";
 import { FilterCheckboxOptions, FilterCheckboxEntry } from 'src/app/types';
 
 const GET_POSTS_OF_AUTHOR = gql`
@@ -18,8 +19,10 @@ const GET_POSTS_OF_AUTHOR = gql`
 })
 export class GqlService {
     constructor(private apollo: Apollo) { }
-    filterVariants: FilterCheckboxOptions;
-    shipName = "HA"
+    private filterVariantsSubject = new BehaviorSubject<FilterCheckboxOptions>({});
+    filterVariants = this.filterVariantsSubject.asObservable();
+
+    shipName = ""
     enSearch = false
     setShipName(name: string) {
         this.shipName = name
@@ -36,10 +39,10 @@ export class GqlService {
                 },
             })
             .valueChanges.subscribe((result: any) => {
-                this.filterVariants = result?.data?.ships;
+                this.filterVariantsSubject.next(result?.data?.launchesPast?.map(entry => entry.mission_name));
                 // this.loading = result.loading;
                 // this.error = result.error;
-                console.log(result?.data?.launchesPast?.map(entry => entry.mission_name))
+                // console.log(result?.data?.launchesPast)
             });
     }
 }

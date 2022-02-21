@@ -5,6 +5,6 @@ export type FilterCheckboxEntry = {
 }
 
 export type FilterCheckboxOptions = {
-    title: string,
-    entries: FilterCheckboxEntry[]
+    title?: string,
+    entries?: FilterCheckboxEntry[]
 }
