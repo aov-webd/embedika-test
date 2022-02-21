@@ -14,7 +14,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { FilterCheckboxComponent } from './sidebar/filter-checkbox/filter-checkbox.component';
 import { FilterNameComponent } from './sidebar/filter-name/filter-name.component';
 import { FilterRadioComponent } from './sidebar/filter-radio/filter-radio.component';
-import { FilterCheckboxItemComponent } from './sidebar/filter-checkbox/filter-checkbox-item/filter-checkbox-item.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -25,13 +25,13 @@ import { FilterCheckboxItemComponent } from './sidebar/filter-checkbox/filter-ch
         FilterCheckboxComponent,
         FilterNameComponent,
         FilterRadioComponent,
-        FilterCheckboxItemComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         ApolloModule,
-        HttpClientModule
+        HttpClientModule,
+        FormsModule
     ],
     providers: [
         {

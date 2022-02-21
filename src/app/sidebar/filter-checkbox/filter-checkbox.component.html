@@ -1,10 +1,14 @@
 <div class="filterCheckbox">
-    <p class="title">Порт</p>
-    <p class="numSelected">Выбраны 2</p>
+    <p class="title">{{title}}</p>
+    <p class="numSelected">Выбраны {{numSelected}}</p>
     <div class="line"></div>
     <div class="bg">
-        <app-filter-checkbox-item></app-filter-checkbox-item>
-        <app-filter-checkbox-item></app-filter-checkbox-item>
-        <app-filter-checkbox-item></app-filter-checkbox-item>
+        <div class="checkbox" *ngFor="let permission of permissions; let i = index">
+            <label class="container">{{permission.name}}
+                <input type="checkbox" [name]="'permissions'+i" [(ngModel)]="permission.checked"
+                    value="{{permission.id}}" (change)="onToggle()">
+                <span class="checkmark"></span>
+            </label>
+        </div>
     </div>
 </div>
