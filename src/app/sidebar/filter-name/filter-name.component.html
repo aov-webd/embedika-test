@@ -1,3 +1,4 @@
 <div class="filterName">
-    <input type="text" placeholder="Название">
+    <input type="text" placeholder="Название" value="{{text}}" [ngModel]="text"
+        (ngModelChange)="onTextChange($event)">
 </div>

@@ -1,6 +1,6 @@
 <div class="wrapper">
     <p class="title">Фильтры</p>
-    <app-filter-name></app-filter-name>
+    <app-filter-name [text]="shipName" (textChanged)="setShipName($event)"></app-filter-name>
     <app-filter-checkbox></app-filter-checkbox>
     <!-- <app-filter-radio></app-filter-radio> -->
 </div>

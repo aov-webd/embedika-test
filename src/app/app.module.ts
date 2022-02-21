@@ -15,6 +15,8 @@ import { FilterCheckboxComponent } from './sidebar/filter-checkbox/filter-checkb
 import { FilterNameComponent } from './sidebar/filter-name/filter-name.component';
 import { FilterRadioComponent } from './sidebar/filter-radio/filter-radio.component';
 import { FormsModule } from '@angular/forms';
+import { GqlService } from './gql.service';
+import { PageListComponent } from './page-list/page-list.component';
 
 @NgModule({
     declarations: [
@@ -25,6 +27,7 @@ import { FormsModule } from '@angular/forms';
         FilterCheckboxComponent,
         FilterNameComponent,
         FilterRadioComponent,
+        PageListComponent,
     ],
     imports: [
         BrowserModule,
@@ -39,13 +42,12 @@ import { FormsModule } from '@angular/forms';
             useFactory: (httpLink: HttpLink) => {
                 return {
                     cache: new InMemoryCache(),
-                    link: httpLink.create({
-                        uri: 'https://api.spacex.land/graphql',
-                    }),
+                    link: httpLink.create({ uri: 'https://api.spacex.land/graphql' }),
                 };
             },
             deps: [HttpLink],
         },
+        GqlService
     ],
     bootstrap: [AppComponent]
 })
