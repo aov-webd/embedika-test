@@ -4,15 +4,21 @@ import { BehaviorSubject, Subscription } from "rxjs";
 import { FilterOptions, FilterEntry, LaunchesPast, LaunchesPastEntry } from 'src/app/types';
 
 const GET_DATA = gql`
-    query getLaunchesPast($shipName: String, $missionName: String) {
-        launchesPast(limit: 10, find: {ship: $shipName, mission_name: $missionName}, offset: 10) {
+    query getLaunchesPast($rocketName: String, $missionName: String) {
+        launchesPast(limit: 10, find: {rocket_name: $rocketName, mission_name: $missionName}, offset: 10) {
             mission_name
             launch_year
             rocket {
                 rocket_name
             }
         }
+        ships {
+            name
+        }
         rockets {
+            name
+        }
+        ships {
             name
         }
     }
@@ -24,8 +30,11 @@ const GET_DATA = gql`
 export class GqlService {
     constructor(private apollo: Apollo) { }
 
-    private filterShipsSubject = new BehaviorSubject<FilterEntry[]>([]);
+    private filterShipsSubject = new BehaviorSubject<string[]>([]);
     filterShips = this.filterShipsSubject.asObservable();
+
+    private filterRocketsSubject = new BehaviorSubject<string[]>([]);
+    filterRockets = this.filterRocketsSubject.asObservable();
 
     private launchesPastSubject = new BehaviorSubject<LaunchesPast>({ loading: true });
     launchesPast = this.launchesPastSubject.asObservable();
@@ -34,10 +43,16 @@ export class GqlService {
 
     shipName = ""
     missionName = ""
+    rocketName = ""
 
     setShipName(name: string) {
         this.shipName = name
         console.log(this.shipName)
+    }
+
+    setRocketName(name: string) {
+        this.rocketName = name
+        console.log(this.rocketName)
     }
 
     setMissionName(name: string) {
@@ -50,7 +65,7 @@ export class GqlService {
             .watchQuery({
                 query: GET_DATA,
                 variables: {
-                    shipName: this.shipName,
+                    rocketName: this.rocketName,
                     missionName: this.missionName
                 },
             })
@@ -60,6 +75,7 @@ export class GqlService {
                     entries: result?.data?.launchesPast?.map((entry: LaunchesPastEntry) => entry)
                 })
                 this.filterShipsSubject.next(result?.data?.ships?.map((entry: FilterEntry) => entry.name));
+                this.filterRocketsSubject.next(result?.data?.rockets?.map((entry: FilterEntry) => entry.name));
                 // this.error = result.error;
                 this.subscription.unsubscribe();
             });

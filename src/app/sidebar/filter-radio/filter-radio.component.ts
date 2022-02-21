@@ -9,14 +9,13 @@ export class FilterRadioComponent implements OnInit {
     @Input() title: string;
     @Input() groupName: string;
     @Input() choices: string[];
-    @Input() defaultChoice: string;
     @Input() value: string;
     @Output() valueChosen: EventEmitter<any> = new EventEmitter();
 
     constructor() { }
 
     ngOnInit(): void {
-        this.choose(this.defaultChoice);
+        // this.choose(this.defaultChoice);
     }
 
     choose(value: string) {

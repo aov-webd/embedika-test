@@ -2,9 +2,9 @@
     <p class="title">{{title}}</p>
     <div class="toggle-group">
         <div class="container" *ngFor="let choice of choices">
-            <label for="{{ groupName + choice }}">{{ choice }} <input type="radio"
-                    id="{{ groupName + choice }}" name="{{groupName}}" value="{{ choice }}"
-                    [(ngModel)]="value" (ngModelChange)="choose($event)">
+            <label for="{{ groupName + choice }}">{{ choice }}
+                <input type="radio" id="{{ groupName + choice }}" name="{{groupName}}"
+                    value="{{ choice }}" [(ngModel)]="value" (ngModelChange)="choose($event)">
                 <span class="checkmark"></span>
             </label>
         </div>

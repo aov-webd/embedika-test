@@ -3,6 +3,7 @@
     <app-filter-name [placeHolder]="'Название миссии'" [text]="missionName"
         (textChanged)="setMissionName($event)"></app-filter-name>
     <!-- <app-filter-checkbox></app-filter-checkbox> -->
-    <app-filter-radio [title]="'Название Ракеты'" [choices]="['All', 'Active', 'Draft']"
-        [defaultChoice]="'All'" [groupName]="'statusFilter'"></app-filter-radio>
+    <app-filter-radio [title]="'Название Ракеты'" [choices]="filterRockets"
+        [value]="filterRocketsValue" [groupName]="'statusFilter'"
+        (valueChosen)="filterRocketsChoose($event)"></app-filter-radio>
 </div>

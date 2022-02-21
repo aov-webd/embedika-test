@@ -10,16 +10,21 @@ import { FilterOptions } from '../types';
 })
 export class SidebarComponent implements OnInit {
     subscription: Subscription;
-    missionName: string = ''
-    filterShips: FilterOptions = { title: 'Корабли' }
+    missionName: string = '';
+
+    filterShips: string[];
+    filterShipsValue: string = '';
+
+    filterRockets: string[];
+    filterRocketsValue: string = '';
 
     constructor(private gqlService: GqlService) { }
     ngOnInit(): void {
         this.gqlService.getGqlData()
-        this.subscription = this.gqlService.filterShips
-            .subscribe(filterShips => {
-                this.filterShips.entries = filterShips
-                console.log(this.filterShips)
+        this.subscription = this.gqlService.filterRockets
+            .subscribe(filterRockets => {
+                this.filterRockets = filterRockets
+                console.log(this.filterRockets)
             })
     }
 
@@ -37,4 +42,9 @@ export class SidebarComponent implements OnInit {
         this.subscription.unsubscribe();
     }
 
+    filterRocketsChoose(value) {
+        this.filterRocketsValue = value
+        this.gqlService.setRocketName(value)
+        this.gqlService.getGqlData()
+    }
 }
