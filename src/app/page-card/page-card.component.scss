@@ -1,3 +1,82 @@
 :host {
-    width: 100%;
+    width  : 100%;
+    padding: 48px 64px;
+
+    a {
+        margin         : 0;
+        text-decoration: none;
+        font-family    : Roboto;
+        font-style     : normal;
+        font-weight    : normal;
+        font-size      : 14px;
+        color          : #2962FF;
+        display        : flex;
+        align-items    : center;
+
+        p {
+            margin: 0;
+        }
+
+        img {
+            width            : 14px;
+            height           : 14px;
+            margin           : 0 5px 0 0;
+            transform        : rotate(180deg);
+            // vertical-align: text-bottom;
+        }
+    }
+
+    .title {
+        margin-top : 22px;
+        font-family: Roboto;
+        font-style : normal;
+        font-weight: 500;
+        font-size  : 28px;
+        color      : rgba(0, 0, 0, 0.87);
+    }
+
+    .fields {
+        margin-top: 53px;
+        display   : flex;
+
+        p {
+            margin: 0;
+        }
+
+        .propName {
+            margin-bottom: 40px;
+            font-family  : Roboto;
+            font-style   : normal;
+            font-weight  : normal;
+            font-size    : 16px;
+            color        : rgba(0, 0, 0, 0.87);
+        }
+
+        .propValue {
+            margin     : 0 279px 40px 104px;
+            font-family: Roboto;
+            font-style : normal;
+            font-weight: normal;
+            font-size  : 16px;
+            color      : #2962FF;
+        }
+    }
+
+    .shipsTitle {
+        margin     : 0;
+        font-family: Roboto;
+        font-style : normal;
+        font-weight: normal;
+        font-size  : 16px;
+        color      : rgba(0, 0, 0, 0.87);
+    }
+
+    .ships {
+        font-family: Roboto;
+        font-style : normal;
+        font-weight: normal;
+        font-size  : 16px;
+        line-height: 32px;
+        color      : #2962FF;
+    }
 }

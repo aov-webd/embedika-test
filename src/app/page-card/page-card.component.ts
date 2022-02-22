@@ -14,11 +14,14 @@ export class PageCardComponent implements OnInit {
     launchesPast: LaunchesPast
     currentMission: LaunchesPastEntry
     subscription: Subscription;
+    shipsNames: string = ''
 
     filterMission(launchesPast: LaunchesPast): LaunchesPastEntry {
-        return launchesPast?.entries?.filter(entry => {
+        let mission: LaunchesPastEntry = launchesPast?.entries?.filter(entry => {
             return +entry.id == this.missionId
         })[0]
+        this.shipsNames = mission?.ships?.map(entry => entry.name).join(', ')
+        return mission
     }
 
     constructor(
@@ -27,8 +30,8 @@ export class PageCardComponent implements OnInit {
     ) {
         this.missionId = this.route.snapshot.params['id'];
 
-        // this.launchesPast = gqlService.launchesPastSubject.getValue();
-        // this.currentMission = this.filterMission(this.launchesPast)
+        this.launchesPast = gqlService.launchesPastSubject.getValue();
+        this.currentMission = this.filterMission(this.launchesPast)
 
         route.params.subscribe(() => {
             this.missionId = this.route.snapshot.params['id'];

@@ -1,2 +1,13 @@
-<p>{{missionId}}</p>
-<p>{{currentMission?.mission_name}}</p>
+<a mat-raised-button [routerLink]="'/'">
+    <img src="../assets/forward.svg" alt="back">
+    <p>Вернуться</p>
+</a>
+<p class="title">{{currentMission?.mission_name}}</p>
+<div class="fields">
+    <p class="propName">Год запуска</p>
+    <p class="propValue">{{currentMission?.launch_year}}</p>
+    <p class="propName">Название ракеты</p>
+    <p class="propValue">{{currentMission?.rocket?.rocket_name}}</p>
+</div>
+<p class="shipsTitle">Миссии</p>
+<p class="ships">{{shipsNames}}</p>
