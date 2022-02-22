@@ -4,8 +4,8 @@ import { BehaviorSubject, Subscription } from "rxjs";
 import { FilterOptions, FilterEntry, LaunchesPast, LaunchesPastEntry } from 'src/app/types';
 
 const GET_DATA = gql`
-    query getLaunchesPast($rocketName: String, $missionName: String) {
-        launchesPast(limit: 10, find: {rocket_name: $rocketName, mission_name: $missionName}, offset: 10) {
+    query getLaunchesPast($rocketName: String, $missionName: String, $offset: Int) {
+        launchesPast(limit: 5, offset:  $offset, find: {rocket_name: $rocketName, mission_name: $missionName}) {
             mission_name
             launch_year
             rocket {
@@ -25,6 +25,11 @@ const GET_DATA = gql`
         }
         ships {
             name
+        }
+        launchesPastResult {
+            result {
+                totalCount
+            }
         }
     }
 `;
@@ -49,6 +54,8 @@ export class GqlService {
     shipName = ""
     missionName = ""
     rocketName = ""
+    offset = 0
+    totalCount: number = 0
 
     setShipName(name: string) {
         this.shipName = name
@@ -71,7 +78,8 @@ export class GqlService {
                 query: GET_DATA,
                 variables: {
                     rocketName: this.rocketName,
-                    missionName: this.missionName
+                    missionName: this.missionName,
+                    offset: this.offset
                 },
             })
             .valueChanges.subscribe((result: any) => {
@@ -81,6 +89,7 @@ export class GqlService {
                 })
                 this.filterShipsSubject.next(result?.data?.ships?.map((entry: FilterEntry) => entry.name));
                 this.filterRocketsSubject.next(result?.data?.rockets?.map((entry: FilterEntry) => entry.name));
+                this.totalCount = result?.data?.launchesPastResult?.result?.totalCount
                 // this.error = result.error;
                 this.subscription.unsubscribe();
             });

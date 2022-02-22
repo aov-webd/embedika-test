@@ -8,7 +8,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client/core';
-import { ListEntryComponent } from './list-entry/list-entry.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FilterCheckboxComponent } from './sidebar/filter-checkbox/filter-checkbox.component';
 import { FilterNameComponent } from './sidebar/filter-name/filter-name.component';
@@ -18,12 +17,11 @@ import { GqlService } from './gql.service';
 import { PageListComponent } from './page-list/page-list.component';
 import { PageCardComponent } from './page-card/page-card.component';
 import { HomepageComponent } from './homepage/homepage.component';
-import { PaginationComponent } from './pagination/pagination.component';
+import { PaginationComponent } from './page-list/pagination/pagination.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        ListEntryComponent,
         SidebarComponent,
         FilterCheckboxComponent,
         FilterNameComponent,
