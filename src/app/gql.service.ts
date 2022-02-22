@@ -101,7 +101,7 @@ export class GqlService {
                     entries: result?.data?.launchesPastResult?.data?.map((entry: LaunchesPastEntry) => entry)
                 })
                 this.filterShipsSubject.next(result?.data?.launchesPastResult?.data?.ships?.map((entry: FilterEntry) => entry.name));
-                this.filterRocketsSubject.next(result?.data?.launchesPastResult?.data?.rockets?.map((entry: FilterEntry) => entry.name));
+                this.filterRocketsSubject.next(result?.data?.rockets?.map((entry: FilterEntry) => entry.name));
                 this.totalCount = result?.data?.launchesPastResult?.result?.totalCount
                 // this.error = result.error;
                 this.subscription.unsubscribe();
