@@ -4,17 +4,22 @@ import { BehaviorSubject, Subscription } from "rxjs";
 import { FilterOptions, FilterEntry, LaunchesPast, LaunchesPastEntry } from 'src/app/types';
 
 const GET_DATA = gql`
-    query getLaunchesPast($rocketName: String, $missionName: String, $offset: Int) {
-        launchesPast(limit: 5, offset:  $offset, find: {rocket_name: $rocketName, mission_name: $missionName}) {
-            mission_name
-            launch_year
-            rocket {
-                rocket_name
+    query launchesPast($rocketName: String, $missionName: String, $offset: Int) {
+        launchesPastResult(limit: 5, offset:  $offset, find: {rocket_name: $rocketName, mission_name: $missionName}) {
+            data {
+                mission_name
+                launch_year
+                rocket {
+                    rocket_name
+                }
+                id
+                details
+                ships {
+                    name
+                }
             }
-            id
-            details
-            ships {
-                name
+            result {
+                totalCount
             }
         }
         ships {
@@ -46,16 +51,11 @@ export class GqlService {
 
     subscription: Subscription;
 
-    shipName = ""
     missionName = ""
     rocketName = ""
     totalCount: number = 0
     offset: number = 0;
 
-    setShipName(name: string) {
-        this.shipName = name
-        // console.log(this.shipName)
-    }
 
     setRocketName(name: string) {
         this.rocketName = name
@@ -98,10 +98,10 @@ export class GqlService {
             .valueChanges.subscribe((result: any) => {
                 this.launchesPastSubject.next({
                     loading: result.loading,
-                    entries: result?.data?.launchesPast?.map((entry: LaunchesPastEntry) => entry)
+                    entries: result?.data?.launchesPastResult?.data?.map((entry: LaunchesPastEntry) => entry)
                 })
-                this.filterShipsSubject.next(result?.data?.ships?.map((entry: FilterEntry) => entry.name));
-                this.filterRocketsSubject.next(result?.data?.rockets?.map((entry: FilterEntry) => entry.name));
+                this.filterShipsSubject.next(result?.data?.launchesPastResult?.data?.ships?.map((entry: FilterEntry) => entry.name));
+                this.filterRocketsSubject.next(result?.data?.launchesPastResult?.data?.rockets?.map((entry: FilterEntry) => entry.name));
                 this.totalCount = result?.data?.launchesPastResult?.result?.totalCount
                 // this.error = result.error;
                 this.subscription.unsubscribe();

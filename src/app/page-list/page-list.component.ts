@@ -18,7 +18,6 @@ export class PageListComponent implements OnInit {
         this.subscription = this.gqlService.launchesPast
             .subscribe(launchesPast => {
                 this.launchesPast = launchesPast
-                console.log(this.launchesPast)
             })
     }
 

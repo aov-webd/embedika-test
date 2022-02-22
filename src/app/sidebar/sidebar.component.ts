@@ -12,9 +12,6 @@ export class SidebarComponent implements OnInit {
     subscription: Subscription;
     missionName: string = '';
 
-    filterShips: string[];
-    filterShipsValue: string = '';
-
     filterRockets: string[];
     filterRocketsValue: string = '';
 
@@ -24,7 +21,6 @@ export class SidebarComponent implements OnInit {
     ngOnInit(): void {
         this.getGqlData.pipe(debounceTime(700))
             .subscribe(data => {
-                // console.log('getting gql data debounced')
                 this.gqlService.getGqlData()
                 return
             });
@@ -37,11 +33,6 @@ export class SidebarComponent implements OnInit {
             })
         this.missionName = this.gqlService.missionName
         this.filterRocketsValue = this.gqlService.rocketName
-    }
-
-    setShipName(name): void {
-        this.gqlService.setShipName(name)
-        this.getGqlData.next('')
     }
 
     setMissionName(name): void {
