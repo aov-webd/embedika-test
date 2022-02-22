@@ -28,7 +28,7 @@ export class StoreService {
         this.queryParamsSubject.next({
             ...this.queryParamsSubject.getValue(),
             offset:
-                (this.queryParamsSubject.getValue().offset + 5) > this.totalCount ?
+                (this.queryParamsSubject.getValue().offset + 5) >= this.totalCount ?
                     this.queryParamsSubject.getValue().offset :
                     this.queryParamsSubject.getValue().offset + 5
         })
@@ -37,7 +37,7 @@ export class StoreService {
     decOffset() {
         this.queryParamsSubject.next({
             ...this.queryParamsSubject.getValue(),
-            offset: (this.queryParamsSubject.getValue().offset - 5) < 0 ?
+            offset: (this.queryParamsSubject.getValue().offset - 5) <= 0 ?
                 0 :
                 this.queryParamsSubject.getValue().offset - 5
 

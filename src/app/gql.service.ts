@@ -52,7 +52,6 @@ export class GqlService {
         private apollo: Apollo,
         private storeService: StoreService
     ) {
-        this.getGqlData()
         this.storeService.queryParams.pipe(debounceTime(500)).subscribe({
             next: (data) => {
                 this.queryParams = data
