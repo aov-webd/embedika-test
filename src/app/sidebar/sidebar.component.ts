@@ -54,6 +54,7 @@ export class SidebarComponent implements OnInit {
     }
 
     filterRocketsChoose(value) {
+        this.gqlService.rmCurOffset()
         this.filterRocketsValue = value
         this.gqlService.setRocketName(value)
         this.getGqlData.next('')

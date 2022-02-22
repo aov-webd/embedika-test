@@ -26,11 +26,6 @@ const GET_DATA = gql`
         ships {
             name
         }
-        launchesPastResult {
-            result {
-                totalCount
-            }
-        }
     }
 `;
 
@@ -54,8 +49,8 @@ export class GqlService {
     shipName = ""
     missionName = ""
     rocketName = ""
-    offset = 0
     totalCount: number = 0
+    offset: number = 0;
 
     setShipName(name: string) {
         this.shipName = name
@@ -70,6 +65,24 @@ export class GqlService {
     setMissionName(name: string) {
         this.missionName = name
         // console.log(this.missionName)
+    }
+
+    getCurOffset() {
+        return this.offset
+    }
+
+    rmCurOffset() {
+        this.offset = 0
+    }
+
+    incCurOffset() {
+        this.offset = ((this.offset + 5) > this.totalCount) ? this.offset : this.offset + 5
+        this.getGqlData()
+    }
+
+    decCurOffset() {
+        this.offset = ((this.offset - 5) < 0) ? this.offset : this.offset - 5
+        this.getGqlData()
     }
 
     getGqlData() {
