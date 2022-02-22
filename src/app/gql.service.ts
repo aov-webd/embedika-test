@@ -39,9 +39,6 @@ export class GqlService {
     private filterShipsSubject = new BehaviorSubject<string[]>([]);
     filterShips = this.filterShipsSubject.asObservable();
 
-    private filterRocketsSubject = new BehaviorSubject<string[]>([]);
-    filterRockets = this.filterRocketsSubject.asObservable();
-
     launchesPastSubject = new BehaviorSubject<LaunchesPast>({ loading: true });
     launchesPast = this.launchesPastSubject.asObservable();
 
@@ -67,35 +64,6 @@ export class GqlService {
             }
         })
     }
-
-    // setRocketName(name: string) {
-    //     this.rocketName = name
-    //     // console.log(this.rocketName)
-    // }
-
-    // setMissionName(name: string) {
-    //     this.missionName = name
-    //     // console.log(this.missionName)
-    // }
-
-    getCurOffset() {
-        // return this.offset
-    }
-
-    rmCurOffset() {
-        // this.offset = 0
-    }
-
-    incCurOffset() {
-        // this.offset = ((this.offset + 5) > this.totalCount) ? this.offset : this.offset + 5
-        // this.getGqlData()
-    }
-
-    decCurOffset() {
-        // this.offset = ((this.offset - 5) < 0) ? this.offset : this.offset - 5
-        // this.getGqlData()
-    }
-
     getGqlData() {
         console.log('getGqlData')
         this.subscription = this.apollo
@@ -108,12 +76,16 @@ export class GqlService {
                 },
             })
             .valueChanges.subscribe((result: any) => {
-                this.launchesPastSubject.next({
+                this.storeService.setLaunchesPast({
                     loading: result.loading,
                     entries: result?.data?.launchesPastResult?.data?.map((entry: LaunchesPastEntry) => entry)
                 })
-                this.filterShipsSubject.next(result?.data?.launchesPastResult?.data?.ships?.map((entry: FilterEntry) => entry.name));
-                this.filterRocketsSubject.next(result?.data?.launchesPastResult?.data?.rockets?.map((entry: FilterEntry) => entry.name));
+
+                // this.launchesPastSubject.next({
+                //     loading: result.loading,
+                //     entries: result?.data?.launchesPastResult?.data?.map((entry: LaunchesPastEntry) => entry)
+                // })
+                this.storeService.setAllRocketNames(result?.data?.rockets?.map((entry: FilterEntry) => entry.name))
                 this.totalCount = result?.data?.launchesPastResult?.result?.totalCount
                 // this.error = result.error;
                 this.subscription.unsubscribe();

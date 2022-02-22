@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GqlService } from '../gql.service';
 import { LaunchesPast, LaunchesPastEntry } from 'src/app/types';
 import { Subscription } from 'rxjs';
+import { StoreService } from '../store.service';
 
 @Component({
     selector: 'app-page-card',
@@ -25,24 +25,17 @@ export class PageCardComponent implements OnInit {
     }
 
     constructor(
-        private gqlService: GqlService,
+        private storeService: StoreService,
         private route: ActivatedRoute
     ) {
         this.missionId = this.route.snapshot.params['id'];
-        this.gqlService.getGqlData()
-        this.launchesPast = gqlService.launchesPastSubject.getValue();
+        this.launchesPast = this.storeService.getLaunchesPast();
         this.currentMission = this.filterMission(this.launchesPast)
 
         route.params.subscribe(() => {
             this.missionId = this.route.snapshot.params['id'];
             this.currentMission = this.filterMission(this.launchesPast)
         });
-
-        this.subscription = this.gqlService.launchesPast
-            .subscribe(launchesPast => {
-                this.launchesPast = launchesPast;
-                this.currentMission = this.filterMission(launchesPast)
-            })
     }
 
     ngOnInit(): void {
