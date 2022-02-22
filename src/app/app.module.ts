@@ -18,6 +18,7 @@ import { GqlService } from './gql.service';
 import { PageListComponent } from './page-list/page-list.component';
 import { PageCardComponent } from './page-card/page-card.component';
 import { HomepageComponent } from './homepage/homepage.component';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
     declarations: [
@@ -30,6 +31,7 @@ import { HomepageComponent } from './homepage/homepage.component';
         PageListComponent,
         PageCardComponent,
         HomepageComponent,
+        PaginationComponent,
     ],
     imports: [
         BrowserModule,

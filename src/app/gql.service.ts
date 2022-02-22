@@ -12,6 +12,7 @@ const GET_DATA = gql`
                 rocket_name
             }
             id
+            details
             ships {
                 name
             }

@@ -19,6 +19,7 @@ export type LaunchesPastEntry = {
     launch_year: string,
     ships: { name: string }[]
     id: string
+    details: string
     rocket: {
         rocket_name: string
     }

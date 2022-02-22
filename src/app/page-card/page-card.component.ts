@@ -29,7 +29,7 @@ export class PageCardComponent implements OnInit {
         private route: ActivatedRoute
     ) {
         this.missionId = this.route.snapshot.params['id'];
-
+        this.gqlService.getGqlData()
         this.launchesPast = gqlService.launchesPastSubject.getValue();
         this.currentMission = this.filterMission(this.launchesPast)
 
