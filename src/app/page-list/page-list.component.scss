@@ -1,13 +1,19 @@
 .wrapper {
     background: #FAFAFA;
+    height    : 100%;
+    width     : 100%;
+    padding   : 52px 63px;
+    box-sizing: border-box;
 
     .title {
-        font-family  : Roboto;
-        font-style   : normal;
-        font-weight  : 500;
-        font-size    : 28px;
-        color        : rgba(0, 0, 0, 0.87);
-        margin-bottom: 64px;
+        display    : block;
+        box-sizing : border-box;
+        font-family: Roboto;
+        font-style : normal;
+        font-weight: 500;
+        font-size  : 28px;
+        color      : rgba(0, 0, 0, 0.87);
+        margin     : 0 0 64px 0;
     }
 
     .container {

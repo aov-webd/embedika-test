@@ -16,6 +16,7 @@ import { FilterRadioComponent } from './sidebar/filter-radio/filter-radio.compon
 import { FormsModule } from '@angular/forms';
 import { GqlService } from './gql.service';
 import { PageListComponent } from './page-list/page-list.component';
+import { PageCardComponent } from './page-card/page-card.component';
 
 @NgModule({
     declarations: [
@@ -26,6 +27,7 @@ import { PageListComponent } from './page-list/page-list.component';
         FilterNameComponent,
         FilterRadioComponent,
         PageListComponent,
+        PageCardComponent,
     ],
     imports: [
         BrowserModule,
