@@ -24,3 +24,9 @@ export type LaunchesPastEntry = {
         rocket_name: string
     }
 }
+
+export type QueryParamsT = {
+    rocketName?: string,
+    missionName?: string,
+    offset?: number
+}

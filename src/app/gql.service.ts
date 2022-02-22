@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, Subscription } from "rxjs";
-import { FilterOptions, FilterEntry, LaunchesPast, LaunchesPastEntry } from 'src/app/types';
+import { BehaviorSubject, debounceTime, Subject, Subscription } from "rxjs";
+import { FilterOptions, FilterEntry, LaunchesPast, LaunchesPastEntry, QueryParamsT } from 'src/app/types';
+import { StoreService } from "./store.service";
 
 const GET_DATA = gql`
     query launchesPast($rocketName: String, $missionName: String, $offset: Int) {
@@ -28,9 +29,6 @@ const GET_DATA = gql`
         rockets {
             name
         }
-        ships {
-            name
-        }
     }
 `;
 
@@ -38,8 +36,6 @@ const GET_DATA = gql`
     providedIn: 'root'
 })
 export class GqlService {
-    constructor(private apollo: Apollo) { }
-
     private filterShipsSubject = new BehaviorSubject<string[]>([]);
     filterShips = this.filterShipsSubject.asObservable();
 
@@ -50,49 +46,65 @@ export class GqlService {
     launchesPast = this.launchesPastSubject.asObservable();
 
     subscription: Subscription;
+    queryParams: QueryParamsT = {
+        missionName: "",
+        rocketName: "",
+        offset: 0
+    }
 
-    missionName = ""
-    rocketName = ""
     totalCount: number = 0
-    offset: number = 0;
 
+    queryParamsSubscription = new Subject();
 
-    setRocketName(name: string) {
-        this.rocketName = name
-        // console.log(this.rocketName)
+    constructor(
+        private apollo: Apollo,
+        private storeService: StoreService
+    ) {
+        this.storeService.queryParams.pipe(debounceTime(500)).subscribe({
+            next: (data) => {
+                this.queryParams = data
+                this.getGqlData()
+            }
+        })
     }
 
-    setMissionName(name: string) {
-        this.missionName = name
-        // console.log(this.missionName)
-    }
+    // setRocketName(name: string) {
+    //     this.rocketName = name
+    //     // console.log(this.rocketName)
+    // }
+
+    // setMissionName(name: string) {
+    //     this.missionName = name
+    //     // console.log(this.missionName)
+    // }
 
     getCurOffset() {
-        return this.offset
+        // return this.offset
     }
 
     rmCurOffset() {
-        this.offset = 0
+        // this.offset = 0
     }
 
     incCurOffset() {
-        this.offset = ((this.offset + 5) > this.totalCount) ? this.offset : this.offset + 5
-        this.getGqlData()
+        // this.offset = ((this.offset + 5) > this.totalCount) ? this.offset : this.offset + 5
+        // this.getGqlData()
     }
 
     decCurOffset() {
-        this.offset = ((this.offset - 5) < 0) ? this.offset : this.offset - 5
-        this.getGqlData()
+        // this.offset = ((this.offset - 5) < 0) ? this.offset : this.offset - 5
+        // this.getGqlData()
     }
 
     getGqlData() {
+        console.log('getGqlData')
         this.subscription = this.apollo
             .watchQuery({
                 query: GET_DATA,
                 variables: {
-                    rocketName: this.rocketName,
-                    missionName: this.missionName,
-                    offset: this.offset
+                    rocketName: this.queryParams.rocketName,
+                    missionName: this.queryParams.missionName,
+                    offset: this.queryParams.offset
                 },
             })
             .valueChanges.subscribe((result: any) => {
