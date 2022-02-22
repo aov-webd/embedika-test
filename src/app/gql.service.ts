@@ -11,6 +11,10 @@ const GET_DATA = gql`
             rocket {
                 rocket_name
             }
+            id
+            ships {
+                name
+            }
         }
         ships {
             name
@@ -36,7 +40,7 @@ export class GqlService {
     private filterRocketsSubject = new BehaviorSubject<string[]>([]);
     filterRockets = this.filterRocketsSubject.asObservable();
 
-    private launchesPastSubject = new BehaviorSubject<LaunchesPast>({ loading: true });
+    launchesPastSubject = new BehaviorSubject<LaunchesPast>({ loading: true });
     launchesPast = this.launchesPastSubject.asObservable();
 
     subscription: Subscription;

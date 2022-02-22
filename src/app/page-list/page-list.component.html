@@ -3,8 +3,10 @@
     <div class="container">
         <div class="item" *ngFor="let entry of launchesPast.entries">
             <p class="missionName">{{entry.mission_name}}
-                <img [style.marginLeft]="'19px'" [style.verticalAlign]="'text-top'"
-                    src="../assets/forward.svg" alt="">
+                <a mat-raised-button [routerLink]="'mission/'+[entry.id]">
+                    <img [style.marginLeft]="'19px'" [style.verticalAlign]="'text-top'"
+                        src="../assets/forward.svg" alt="">
+                </a>
             </p>
             <div class="details">
                 <p class="name">Год запуска</p>

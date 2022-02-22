@@ -31,7 +31,6 @@ export class SidebarComponent implements OnInit {
         this.subscription = this.gqlService.filterRockets
             .subscribe(filterRockets => {
                 this.filterRockets = filterRockets
-                console.log(this.filterRockets)
             })
     }
 
