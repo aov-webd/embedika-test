@@ -16,6 +16,7 @@ export class SidebarComponent implements OnInit {
     filterRocketsValue: string = '';
 
     constructor(
+        private gqlService: GqlService,
         private storeService: StoreService
     ) {
         this.storeService.queryParams.subscribe({

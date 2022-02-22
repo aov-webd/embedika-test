@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject, debounceTime, Subject, Subscription } from "rxjs";
-import { FilterOptions, FilterEntry, LaunchesPast, LaunchesPastEntry, QueryParamsT } from 'src/app/types';
+import { FilterEntry, LaunchesPast, LaunchesPastEntry, QueryParamsT } from 'src/app/types';
 import { StoreService } from "./store.service";
 
 const GET_DATA = gql`
@@ -36,13 +36,8 @@ const GET_DATA = gql`
     providedIn: 'root'
 })
 export class GqlService {
-    private filterShipsSubject = new BehaviorSubject<string[]>([]);
-    filterShips = this.filterShipsSubject.asObservable();
-
-    launchesPastSubject = new BehaviorSubject<LaunchesPast>({ loading: true });
-    launchesPast = this.launchesPastSubject.asObservable();
-
     subscription: Subscription;
+
     queryParams: QueryParamsT = {
         missionName: "",
         rocketName: "",
@@ -57,6 +52,7 @@ export class GqlService {
         private apollo: Apollo,
         private storeService: StoreService
     ) {
+        this.getGqlData()
         this.storeService.queryParams.pipe(debounceTime(500)).subscribe({
             next: (data) => {
                 this.queryParams = data
@@ -81,12 +77,8 @@ export class GqlService {
                     entries: result?.data?.launchesPastResult?.data?.map((entry: LaunchesPastEntry) => entry)
                 })
 
-                // this.launchesPastSubject.next({
-                //     loading: result.loading,
-                //     entries: result?.data?.launchesPastResult?.data?.map((entry: LaunchesPastEntry) => entry)
-                // })
                 this.storeService.setAllRocketNames(result?.data?.rockets?.map((entry: FilterEntry) => entry.name))
-                this.totalCount = result?.data?.launchesPastResult?.result?.totalCount
+                this.storeService.setTotalCount(result?.data?.launchesPastResult?.result?.totalCount)
                 // this.error = result.error;
                 this.subscription.unsubscribe();
             });

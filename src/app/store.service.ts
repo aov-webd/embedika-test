@@ -14,8 +14,9 @@ export class StoreService {
             offset: 0
         }
     );
-    private rocketNamesSubject = new BehaviorSubject<string[]>([])
+    private rocketNamesSubject = new BehaviorSubject<string[]>([]);
     private launchesPastSubject = new BehaviorSubject<LaunchesPast>({ loading: true });
+    private totalCount: number;
 
     queryParams = this.queryParamsSubject.asObservable();
     rocketNames = this.rocketNamesSubject.asObservable();
@@ -26,14 +27,20 @@ export class StoreService {
     incOffset() {
         this.queryParamsSubject.next({
             ...this.queryParamsSubject.getValue(),
-            offset: this.queryParamsSubject.getValue().offset + 1
+            offset:
+                (this.queryParamsSubject.getValue().offset + 5) > this.totalCount ?
+                    this.queryParamsSubject.getValue().offset :
+                    this.queryParamsSubject.getValue().offset + 5
         })
     }
 
     decOffset() {
         this.queryParamsSubject.next({
             ...this.queryParamsSubject.getValue(),
-            offset: this.queryParamsSubject.getValue().offset - 1
+            offset: (this.queryParamsSubject.getValue().offset - 5) < 0 ?
+                0 :
+                this.queryParamsSubject.getValue().offset - 5
+
         })
     }
 
@@ -42,6 +49,10 @@ export class StoreService {
             ...this.queryParamsSubject.getValue(),
             offset: value
         })
+    }
+
+    getOffset(): number {
+        return this.queryParamsSubject.getValue().offset
     }
 
     setMissionName(value: string) {
@@ -68,5 +79,9 @@ export class StoreService {
 
     getLaunchesPast(): LaunchesPast {
         return this.launchesPastSubject.getValue()
+    }
+
+    setTotalCount(value: number) {
+        this.totalCount = value
     }
 }
