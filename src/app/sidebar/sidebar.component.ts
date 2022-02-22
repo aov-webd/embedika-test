@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { debounceTime, Subject, Subscription } from 'rxjs';
 import { GqlService } from '../gql.service';
 import { StoreService } from '../store.service';
@@ -9,22 +9,23 @@ import { StoreService } from '../store.service';
     styleUrls: ['./sidebar.component.scss']
 })
 
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
     missionName: string = '';
 
     filterRockets: string[];
     filterRocketsValue: string = '';
-
+    queryParamsSubscription: Subscription
+    rocketNamesSubscription: Subscription
     constructor(
         private gqlService: GqlService,
         private storeService: StoreService
     ) {
-        this.storeService.queryParams.subscribe({
+        this.queryParamsSubscription = this.storeService.queryParams.subscribe({
             next: (data) => {
                 this.filterRocketsValue = data.rocketName
             }
         })
-        this.storeService.rocketNames.subscribe({
+        this.rocketNamesSubscription = this.storeService.rocketNames.subscribe({
             next: (data) => {
                 this.filterRockets = data
             }
@@ -42,5 +43,10 @@ export class SidebarComponent implements OnInit {
     filterRocketsChoose(value: string) {
         this.storeService.setRocketName(value)
         this.storeService.setOffset(0)
+    }
+
+    ngOnDestroy(): void {
+        this.queryParamsSubscription.unsubscribe()
+        this.rocketNamesSubscription.unsubscribe()
     }
 }
