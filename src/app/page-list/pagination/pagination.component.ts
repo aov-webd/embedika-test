@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { GqlService } from 'src/app/gql.service';
+import { Subscription } from 'rxjs';
+import { StoreService } from 'src/app/store.service';
 
 @Component({
     selector: 'app-pagination',
@@ -7,20 +8,25 @@ import { GqlService } from 'src/app/gql.service';
     styleUrls: ['./pagination.component.scss']
 })
 export class PaginationComponent implements OnInit {
+
+    pageSubscription = Subscription
     page: number = 1
-    constructor(private gqlService: GqlService) { }
+
+    constructor(
+        private storeService: StoreService
+    ) { }
 
     ngOnInit(): void {
-        this.page = Math.floor(this.gqlService.getCurOffset() / 5) + 1
+        this.page = Math.floor(this.storeService.getOffset() / 5) + 1
     }
 
     incCurOffset() {
-        this.gqlService.incCurOffset()
-        this.page = Math.floor(this.gqlService.getCurOffset() / 5) + 1
+        this.storeService.incOffset()
+        this.page = Math.floor(this.storeService.getOffset() / 5) + 1
     }
 
     decCurOffset() {
-        this.gqlService.decCurOffset()
-        this.page = Math.floor(this.gqlService.getCurOffset() / 5) + 1
+        this.storeService.decOffset()
+        this.page = Math.floor(this.storeService.getOffset() / 5) + 1
     }
 }

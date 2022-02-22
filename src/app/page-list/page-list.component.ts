@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { GqlService } from '../gql.service';
+import { StoreService } from '../store.service';
 import { FilterOptions, LaunchesPast } from '../types';
 
 @Component({
@@ -12,10 +12,10 @@ export class PageListComponent implements OnInit {
     subscription: Subscription;
     launchesPast: LaunchesPast = { loading: true };
 
-    constructor(private gqlService: GqlService) { }
+    constructor(private storeService: StoreService) { }
 
     ngOnInit(): void {
-        this.subscription = this.gqlService.launchesPast
+        this.subscription = this.storeService.launchesPast
             .subscribe(launchesPast => {
                 this.launchesPast = launchesPast
             })

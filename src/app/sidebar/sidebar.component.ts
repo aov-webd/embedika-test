@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { debounceTime, Subject, Subscription } from 'rxjs';
 import { GqlService } from '../gql.service';
+import { StoreService } from '../store.service';
 
 @Component({
     selector: 'app-sidebar',
@@ -9,45 +10,37 @@ import { GqlService } from '../gql.service';
 })
 
 export class SidebarComponent implements OnInit {
-    subscription: Subscription;
     missionName: string = '';
 
     filterRockets: string[];
     filterRocketsValue: string = '';
 
-    getGqlData = new Subject();
+    constructor(
+        private gqlService: GqlService,
+        private storeService: StoreService
+    ) {
+        this.storeService.queryParams.subscribe({
+            next: (data) => {
+                this.filterRocketsValue = data.rocketName
+            }
+        })
+        this.storeService.rocketNames.subscribe({
+            next: (data) => {
+                this.filterRockets = data
+            }
+        })
+    }
 
-    constructor(private gqlService: GqlService) { }
     ngOnInit(): void {
-        this.getGqlData.pipe(debounceTime(700))
-            .subscribe(data => {
-                this.gqlService.getGqlData()
-                return
-            });
-
-        this.getGqlData.next('')
-
-        this.subscription = this.gqlService.filterRockets
-            .subscribe(filterRockets => {
-                this.filterRockets = filterRockets
-            })
-        this.missionName = this.gqlService.missionName
-        this.filterRocketsValue = this.gqlService.rocketName
     }
 
-    setMissionName(name): void {
-        this.gqlService.setMissionName(name)
-        this.getGqlData.next('')
+    setMissionName(value: string): void {
+        this.storeService.setMissionName(value)
+        this.storeService.setOffset(0)
     }
 
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
-    }
-
-    filterRocketsChoose(value) {
-        this.gqlService.rmCurOffset()
-        this.filterRocketsValue = value
-        this.gqlService.setRocketName(value)
-        this.getGqlData.next('')
+    filterRocketsChoose(value: string) {
+        this.storeService.setRocketName(value)
+        this.storeService.setOffset(0)
     }
 }
