@@ -1,9 +1,6 @@
-<div class="wrapper">
-    <p class="title">Фильтры</p>
-    <app-filter-name [placeHolder]="'Название миссии'" [text]="missionName"
-        (textChanged)="searchNotifier.next($event)"></app-filter-name>
-    <!-- <app-filter-checkbox></app-filter-checkbox> -->
-    <app-filter-radio [title]="'Название Ракеты'" [choices]="filterRockets"
-        [value]="filterRocketsValue" [groupName]="'statusFilter'"
-        (valueChosen)="filterRocketsChoose($event)"></app-filter-radio>
-</div>
+<p class="title">Фильтры</p>
+<app-filter-name [placeHolder]="'Название миссии'" [text]="missionName"
+    (textChanged)="setMissionName($event)"></app-filter-name>
+<!-- <app-filter-checkbox></app-filter-checkbox> -->
+<app-filter-radio [title]="'Название Ракеты'" [choices]="filterRockets" [value]="filterRocketsValue"
+    [groupName]="'statusFilter'" (valueChosen)="filterRocketsChoose($event)"></app-filter-radio>

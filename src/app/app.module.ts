@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { GqlService } from './gql.service';
 import { PageListComponent } from './page-list/page-list.component';
 import { PageCardComponent } from './page-card/page-card.component';
+import { HomepageComponent } from './homepage/homepage.component';
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import { PageCardComponent } from './page-card/page-card.component';
         FilterRadioComponent,
         PageListComponent,
         PageCardComponent,
+        HomepageComponent,
     ],
     imports: [
         BrowserModule,

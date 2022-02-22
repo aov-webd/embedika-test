@@ -51,17 +51,17 @@ export class GqlService {
 
     setShipName(name: string) {
         this.shipName = name
-        console.log(this.shipName)
+        // console.log(this.shipName)
     }
 
     setRocketName(name: string) {
         this.rocketName = name
-        console.log(this.rocketName)
+        // console.log(this.rocketName)
     }
 
     setMissionName(name: string) {
         this.missionName = name
-        console.log(this.missionName)
+        // console.log(this.missionName)
     }
 
     getGqlData() {

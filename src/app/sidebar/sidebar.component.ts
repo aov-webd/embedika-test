@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { debounceTime, Subject, Subscription } from 'rxjs';
 import { GqlService } from '../gql.service';
-import { FilterOptions } from '../types';
 
 @Component({
     selector: 'app-sidebar',
@@ -19,29 +18,35 @@ export class SidebarComponent implements OnInit {
     filterRockets: string[];
     filterRocketsValue: string = '';
 
-    searchNotifier = new Subject();
+    getGqlData = new Subject();
 
     constructor(private gqlService: GqlService) { }
     ngOnInit(): void {
-        this.gqlService.getGqlData()
+        this.getGqlData.pipe(debounceTime(700))
+            .subscribe(data => {
+                // console.log('getting gql data debounced')
+                this.gqlService.getGqlData()
+                return
+            });
 
-        this.searchNotifier.pipe(debounceTime(500))
-            .subscribe(data => this.setMissionName(data));
+        this.getGqlData.next('')
 
         this.subscription = this.gqlService.filterRockets
             .subscribe(filterRockets => {
                 this.filterRockets = filterRockets
             })
+        this.missionName = this.gqlService.missionName
+        this.filterRocketsValue = this.gqlService.rocketName
     }
 
     setShipName(name): void {
         this.gqlService.setShipName(name)
-        this.gqlService.getGqlData()
+        this.getGqlData.next('')
     }
 
     setMissionName(name): void {
         this.gqlService.setMissionName(name)
-        this.gqlService.getGqlData()
+        this.getGqlData.next('')
     }
 
     ngOnDestroy() {
@@ -51,6 +56,6 @@ export class SidebarComponent implements OnInit {
     filterRocketsChoose(value) {
         this.filterRocketsValue = value
         this.gqlService.setRocketName(value)
-        this.gqlService.getGqlData()
+        this.getGqlData.next('')
     }
 }
