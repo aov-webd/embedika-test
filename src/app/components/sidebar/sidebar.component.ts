@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { debounceTime, Subject, Subscription } from 'rxjs';
-import { GqlService } from '../gql.service';
-import { StoreService } from '../store.service';
+import { GqlService } from '../../services/gql.service';
+import { StoreService } from '../../services/store.service';
 
 @Component({
     selector: 'app-sidebar',
@@ -14,39 +14,39 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     filterRockets: string[];
     filterRocketsValue: string = '';
-    queryParamsSubscription: Subscription
-    rocketNamesSubscription: Subscription
+    queryParamsSubscription: Subscription;
+    rocketNamesSubscription: Subscription;
     constructor(
         private gqlService: GqlService,
         private storeService: StoreService
     ) {
         this.queryParamsSubscription = this.storeService.queryParams.subscribe({
             next: (data) => {
-                this.filterRocketsValue = data.rocketName
+                this.filterRocketsValue = data.rocketName;
             }
-        })
+        });
         this.rocketNamesSubscription = this.storeService.rocketNames.subscribe({
             next: (data) => {
-                this.filterRockets = data
+                this.filterRockets = data;
             }
-        })
+        });
     }
 
     ngOnInit(): void {
     }
 
     setMissionName(value: string): void {
-        this.storeService.setMissionName(value)
-        this.storeService.setOffset(0)
+        this.storeService.setMissionName(value);
+        this.storeService.setOffset(0);
     }
 
     filterRocketsChoose(value: string) {
-        this.storeService.setRocketName(value)
-        this.storeService.setOffset(0)
+        this.storeService.setRocketName(value);
+        this.storeService.setOffset(0);
     }
 
     ngOnDestroy(): void {
-        this.queryParamsSubscription.unsubscribe()
-        this.rocketNamesSubscription.unsubscribe()
+        this.queryParamsSubscription.unsubscribe();
+        this.rocketNamesSubscription.unsubscribe();
     }
 }

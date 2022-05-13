@@ -8,16 +8,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client/core';
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { FilterCheckboxComponent } from './sidebar/filter-checkbox/filter-checkbox.component';
-import { FilterNameComponent } from './sidebar/filter-name/filter-name.component';
-import { FilterRadioComponent } from './sidebar/filter-radio/filter-radio.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { FilterCheckboxComponent } from './components/sidebar/filter-checkbox/filter-checkbox.component';
+import { FilterNameComponent } from './components/sidebar/filter-name/filter-name.component';
+import { FilterRadioComponent } from './components/sidebar/filter-radio/filter-radio.component';
 import { FormsModule } from '@angular/forms';
-import { GqlService } from './gql.service';
-import { PageListComponent } from './page-list/page-list.component';
-import { PageCardComponent } from './page-card/page-card.component';
-import { HomepageComponent } from './homepage/homepage.component';
-import { PaginationComponent } from './page-list/pagination/pagination.component';
+import { GqlService } from './services/gql.service';
+import { PageListComponent } from './components/page-list/page-list.component';
+import { PageCardComponent } from './pages/page-card/page-card.component';
+import { HomepageComponent } from './pages/homepage/homepage.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 @NgModule({
     declarations: [

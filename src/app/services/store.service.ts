@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { LaunchesPast, QueryParamsT } from './types';
+import { LaunchesPast, QueryParamsT } from '../types';
 
 @Injectable({
     providedIn: 'root'
@@ -31,7 +31,7 @@ export class StoreService {
                 (this.queryParamsSubject.getValue().offset + 5) >= this.totalCount ?
                     this.queryParamsSubject.getValue().offset :
                     this.queryParamsSubject.getValue().offset + 5
-        })
+        });
     }
 
     decOffset() {
@@ -41,47 +41,47 @@ export class StoreService {
                 0 :
                 this.queryParamsSubject.getValue().offset - 5
 
-        })
+        });
     }
 
     setOffset(value: number) {
         this.queryParamsSubject.next({
             ...this.queryParamsSubject.getValue(),
             offset: value
-        })
+        });
     }
 
     getOffset(): number {
-        return this.queryParamsSubject.getValue().offset
+        return this.queryParamsSubject.getValue().offset;
     }
 
     setMissionName(value: string) {
         this.queryParamsSubject.next({
             ...this.queryParamsSubject.getValue(),
             missionName: value
-        })
+        });
     }
 
     setRocketName(value: string) {
         this.queryParamsSubject.next({
             ...this.queryParamsSubject.getValue(),
             rocketName: value
-        })
+        });
     }
 
     setAllRocketNames(value: string[]) {
-        this.rocketNamesSubject.next(value)
+        this.rocketNamesSubject.next(value);
     }
 
     setLaunchesPast(value: LaunchesPast) {
-        this.launchesPastSubject.next(value)
+        this.launchesPastSubject.next(value);
     }
 
     getLaunchesPast(): LaunchesPast {
-        return this.launchesPastSubject.getValue()
+        return this.launchesPastSubject.getValue();
     }
 
     setTotalCount(value: number) {
-        this.totalCount = value
+        this.totalCount = value;
     }
 }

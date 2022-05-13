@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { StoreService } from 'src/app/store.service';
+import { StoreService } from '../../services/store.service';
 
 @Component({
     selector: 'app-pagination',

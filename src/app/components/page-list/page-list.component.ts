@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { StoreService } from '../store.service';
-import { FilterOptions, LaunchesPast } from '../types';
+import { StoreService } from '../../services/store.service';
+import { FilterOptions, LaunchesPast } from '../../types';
 
 @Component({
     selector: 'app-page-list',
@@ -17,8 +17,8 @@ export class PageListComponent implements OnInit {
     ngOnInit(): void {
         this.subscription = this.storeService.launchesPast
             .subscribe(launchesPast => {
-                this.launchesPast = launchesPast
-            })
+                this.launchesPast = launchesPast;
+            });
     }
 
     ngOnDestroy() {
