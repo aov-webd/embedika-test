@@ -1,11 +1,16 @@
 <div class="wrapper">
     <p class="title">SpaceX Missions</p>
     <div class="container">
-        <div class="item" *ngFor="let entry of launchesPast.entries">
+        <h3 *ngIf="launchesPast.loading">Загрузка списка...</h3>
+        <div class="item"
+             *ngFor="let entry of launchesPast.entries">
             <p class="missionName">{{entry.mission_name}}
-                <a mat-raised-button [routerLink]="'mission/'+[entry.id]">
-                    <img [style.marginLeft]="'19px'" [style.verticalAlign]="'text-top'"
-                        src="../assets/forward.svg" alt="mission">
+                <a mat-raised-button
+                   [routerLink]="'mission/'+[entry.id]">
+                    <img [style.marginLeft]="'19px'"
+                         [style.verticalAlign]="'text-top'"
+                         src="../assets/forward.svg"
+                         alt="mission">
                 </a>
             </p>
             <div class="details">

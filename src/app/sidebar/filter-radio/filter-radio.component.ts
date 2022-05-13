@@ -15,10 +15,13 @@ export class FilterRadioComponent implements OnInit {
     constructor() { }
 
     ngOnInit(): void {
-        // this.choose(this.defaultChoice);
     }
 
     choose(value: string) {
         this.valueChosen.emit(value);
+    }
+
+    reset() {
+        this.valueChosen.emit('');
     }
 }

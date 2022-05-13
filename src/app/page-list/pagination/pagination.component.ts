@@ -9,24 +9,30 @@ import { StoreService } from 'src/app/store.service';
 })
 export class PaginationComponent implements OnInit {
 
-    pageSubscription = Subscription
-    page: number = 1
+    pageSubscription = Subscription;
+    page: number = 1;
 
     constructor(
         private storeService: StoreService
-    ) { }
+    ) {
+        storeService.queryParams.subscribe({
+            next: (data) => {
+                this.page = data.offset + 1;
+            }
+        });
+    }
 
     ngOnInit(): void {
-        this.page = Math.floor(this.storeService.getOffset() / 5) + 1
+        this.page = Math.floor(this.storeService.getOffset() / 5) + 1;
     }
 
     incCurOffset() {
-        this.storeService.incOffset()
-        this.page = Math.floor(this.storeService.getOffset() / 5) + 1
+        this.storeService.incOffset();
+        this.page = Math.floor(this.storeService.getOffset() / 5) + 1;
     }
 
     decCurOffset() {
-        this.storeService.decOffset()
-        this.page = Math.floor(this.storeService.getOffset() / 5) + 1
+        this.storeService.decOffset();
+        this.page = Math.floor(this.storeService.getOffset() / 5) + 1;
     }
 }

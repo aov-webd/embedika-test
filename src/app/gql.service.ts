@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, debounceTime, Subject, Subscription } from "rxjs";
-import { FilterEntry, LaunchesPast, LaunchesPastEntry, QueryParamsT } from 'src/app/types';
+import { debounceTime, Subject, Subscription } from "rxjs";
+import { FilterEntry, LaunchesPastEntry, QueryParamsT } from 'src/app/types';
 import { StoreService } from "./store.service";
 
 const GET_DATA = gql`
@@ -18,9 +18,6 @@ const GET_DATA = gql`
                 ships {
                     name
                 }
-            }
-            result {
-                totalCount
             }
         }
         ships {
@@ -42,9 +39,9 @@ export class GqlService {
         missionName: "",
         rocketName: "",
         offset: 0
-    }
+    };
 
-    totalCount: number = 0
+    totalCount: number = 0;
 
     queryParamsSubscription = new Subject();
 
@@ -54,13 +51,16 @@ export class GqlService {
     ) {
         this.storeService.queryParams.pipe(debounceTime(500)).subscribe({
             next: (data) => {
-                this.queryParams = data
-                this.getGqlData()
+                this.queryParams = data;
+                this.getGqlData();
             }
-        })
+        });
     }
     getGqlData() {
-        console.log('getGqlData')
+        this.storeService.setLaunchesPast({
+            loading: true,
+            entries: []
+        });
         this.subscription = this.apollo
             .watchQuery({
                 query: GET_DATA,
@@ -70,16 +70,16 @@ export class GqlService {
                     offset: this.queryParams.offset
                 },
             })
-            .valueChanges.subscribe((result: any) => {
+            .valueChanges
+            .subscribe((result: any) => {
+                console.log(result.loading);
                 this.storeService.setLaunchesPast({
                     loading: result.loading,
                     entries: result?.data?.launchesPastResult?.data?.map((entry: LaunchesPastEntry) => entry)
-                })
+                });
 
-                this.storeService.setAllRocketNames(result?.data?.rockets?.map((entry: FilterEntry) => entry.name))
-                this.storeService.setTotalCount(result?.data?.launchesPastResult?.result?.totalCount)
-                // this.error = result.error;
-                this.subscription.unsubscribe();
+                this.storeService.setAllRocketNames(result?.data?.rockets?.map((entry: FilterEntry) => entry.name));
+                this.storeService.setTotalCount(result?.data?.launchesPastResult?.result?.totalCount);
             });
     }
 }

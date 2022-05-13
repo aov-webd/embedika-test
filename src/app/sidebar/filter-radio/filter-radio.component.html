@@ -1,12 +1,21 @@
 <div class="filterRadio">
     <p class="title">{{title}}</p>
     <div class="toggle-group">
-        <div class="container" *ngFor="let choice of choices">
+        <div class="container"
+             *ngFor="let choice of choices">
             <label for="{{ groupName + choice }}">{{ choice }}
-                <input type="radio" id="{{ groupName + choice }}" name="{{groupName}}"
-                    value="{{ choice }}" [(ngModel)]="value" (ngModelChange)="choose($event)">
+                <input type="radio"
+                       id="{{ groupName + choice }}"
+                       name="{{groupName}}"
+                       value="{{ choice }}"
+                       [(ngModel)]="value"
+                       (ngModelChange)="choose($event)">
                 <span class="checkmark"></span>
             </label>
+        </div>
+        <div class="reset"
+             (click)="reset()">
+            <p>Сбросить</p>
         </div>
     </div>
 </div>
